@@ -3,7 +3,7 @@ package com.jun.board.domain.dto
 import com.jun.board.domain.entity.Post
 
 data class PostDTO(
-    val id: Long?,
+    val id: Long? = null,
     val title: String,
     val user: String,
     val content: String?

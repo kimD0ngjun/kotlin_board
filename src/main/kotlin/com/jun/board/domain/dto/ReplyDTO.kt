@@ -4,7 +4,7 @@ import com.jun.board.domain.entity.Comment
 import com.jun.board.domain.entity.Reply
 
 data class ReplyDTO(
-    val id: Long?,
+    val id: Long? = null,
     val commentId: Long,
     val user: String,
     val content: String

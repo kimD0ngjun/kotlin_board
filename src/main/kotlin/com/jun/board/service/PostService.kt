@@ -1,5 +1,8 @@
 package com.jun.board.service
 
+import com.jun.board.domain.dto.PostDTO
+import com.jun.board.domain.dto.toDTO
+import com.jun.board.domain.dto.toEntity
 import com.jun.board.repository.PostRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -9,4 +12,35 @@ import org.springframework.transaction.annotation.Transactional
 class PostService(
     private val postRepository: PostRepository
 ) {
+    fun createPost(postDTO: PostDTO): PostDTO {
+        val entity = postDTO.toEntity()
+        val savedEntity = postRepository.save(entity)
+        return savedEntity.toDTO()
+    }
+
+    @Transactional(readOnly = true)
+    fun getPost(id: Long): PostDTO? {
+        val post = postRepository.findById(id).orElse(null) ?: return null
+        return post.toDTO()
+    }
+
+    @Transactional(readOnly = true)
+    fun getAllPosts(): List<PostDTO> = postRepository.findAll().map { it.toDTO() }
+
+    fun updatePost(postDTO: PostDTO): PostDTO? {
+        val id = postDTO.id ?: return null
+        val entity = postRepository.findById(id).orElse(null) ?: return null
+
+        entity.apply {
+            title = postDTO.title
+            user = postDTO.user
+            content = postDTO.content
+        }
+
+        return entity.toDTO()
+    }
+
+    fun deletePost(id: Long): Unit {
+        if (postRepository.existsById(id)) postRepository.deleteById(id)
+    }
 }
