@@ -6,8 +6,12 @@ import jakarta.persistence.*
 class Reply(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long,
+    var id: Long? = null,
     var user: String,
     @Lob
-    var content: String
+    var content: String,
+
+    @ManyToOne
+    @JoinColumn(name = "content_id")
+    var comment: Comment? = null
 )
