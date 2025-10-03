@@ -2,6 +2,7 @@ package com.jun.board.service
 
 import com.jun.board.domain.dto.PostDTO
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,35 +30,49 @@ class PostServiceTest @Autowired constructor(
      */
 //    lateinit var postServiceTest: PostServiceTest
 
+    lateinit var post1: PostDTO
+    lateinit var post2: PostDTO
+
+    @BeforeEach
+    fun setUp() {
+        val dto1 = PostDTO(null, "임시 제목1", "임시 사용자1", "임시로 작성한 글입니다111")
+        val dto2 = PostDTO(null, "임시 제목2", "임시 사용자2", "임시로 작성한 글입니다2222")
+
+        post1 = postService.createPost(dto1)
+        post2 = postService.createPost(dto2)
+    }
+
     @Test
     @DisplayName("게시글 생성 테스트")
     fun createPost() {
-        val dto1 = PostDTO(
-            null,
-            "임시 제목1",
-            "임시 사용자1",
-            "임시로 작성한 글입니다111"
-        )
-        val dto2 = PostDTO(
-            null,
-            "임시 제목2",
-            "임시 사용자2",
-            "임시로 작성한 글입니다2222"
-        )
+        val dto = PostDTO(null, "임시 제목3", "임시 사용자3", "임시로 작성한 글입니다333")
+        val post = postService.createPost(dto)
 
-        val createPost1 = postService.createPost(dto1)
-        val createPost2 = postService.createPost(dto2)
-
-        assertEquals(1L, createPost1.id)
-        assertEquals(2L, createPost2.id)
+        assertEquals("임시 제목3", post.title)
+        assertEquals("임시 사용자3", post.username)
     }
 
     @Test
     fun getPost() {
+        val fetched1 = postService.getPost(post1.id!!) // !!: 절대 null이 아님을 보장하는 문법
+        val fetched2 = postService.getPost(post2.id!!)
+        val fetched3 = postService.getPost(999L) // 존재하지 않는 ID
+
+        assertNotNull(fetched1)
+        assertEquals(post1.title, fetched1?.title)
+        assertEquals(post1.content, fetched1?.content)
+
+        assertNotNull(fetched2)
+        assertEquals(post2.title, fetched2?.title)
+        assertEquals(post2.content, fetched2?.content)
+
+        assertNull(fetched3)
     }
 
     @Test
     fun getAllPosts() {
+        val postList: List<PostDTO> = postService.getAllPosts()
+        assertEquals(2, postList.size)
     }
 
     @Test
