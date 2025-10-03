@@ -5,13 +5,13 @@ import com.jun.board.domain.entity.Post
 data class PostDTO(
     val id: Long? = null,
     val title: String,
-    val user: String,
+    val username: String,
     val content: String?
 )
 
 fun PostDTO.toEntity(): Post = Post(
     id = this.id,
     title = this.title,
-    user = this.user,
+    username = this.username,
     content = this.content
 )

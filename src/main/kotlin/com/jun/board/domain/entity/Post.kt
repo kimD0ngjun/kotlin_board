@@ -9,7 +9,7 @@ class Post(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
     var title: String,
-    var user: String,
+    var username: String,
     @Lob
     var content: String? = null, // 선택적 파라미터가 되면서 클래스 필드로 자연스레 편입됨
 
@@ -20,6 +20,6 @@ class Post(
 fun Post.toDTO(): PostDTO = PostDTO(
     id = this.id,
     title = this.title,
-    user = this.user,
+    username = this.username,
     content = this.content
 )

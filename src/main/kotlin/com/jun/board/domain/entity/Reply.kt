@@ -8,7 +8,7 @@ class Reply(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
-    var user: String,
+    var username: String,
     @Lob
     var content: String,
 
@@ -19,7 +19,7 @@ class Reply(
 
 fun ReplyDTO.toEntity(comment: Comment): Reply = Reply(
     id = this.id,
-    user = this.user,
+    username = this.username,
     content = this.content,
     comment = comment
 )

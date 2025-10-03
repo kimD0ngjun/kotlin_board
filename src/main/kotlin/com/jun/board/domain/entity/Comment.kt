@@ -8,7 +8,7 @@ class Comment(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
-    var user: String,
+    var username: String,
     @Lob
     var content: String,
 
@@ -23,6 +23,6 @@ class Comment(
 fun Comment.toDTO(): CommentDTO = CommentDTO(
     id = this.id,
     postId = this.post?.id ?: 0L,
-    user = this.user,
+    username = this.username,
     content = this.content
 )
