@@ -53,6 +53,7 @@ class PostServiceTest @Autowired constructor(
     }
 
     @Test
+    @DisplayName("게시글 조회 테스트")
     fun getPost() {
         val fetched1 = postService.getPost(post1.id!!) // !!: 절대 null이 아님을 보장하는 문법
         val fetched2 = postService.getPost(post2.id!!)
@@ -70,17 +71,28 @@ class PostServiceTest @Autowired constructor(
     }
 
     @Test
+    @DisplayName("게시글 전체 조회 테스트")
     fun getAllPosts() {
         val postList: List<PostDTO> = postService.getAllPosts()
         assertEquals(2, postList.size)
     }
 
     @Test
+    @DisplayName("게시글 수정 테스트")
     fun updatePost() {
+        val updateDto = PostDTO(post1.id!!, "수정된 제목", "수정된 사용자", "수정된 콘텐츠")
+        val updatePost = postService.updatePost(updateDto)
+
+        assertEquals(updateDto.title, updatePost?.title)
+        assertEquals(updateDto.username, updatePost?.username)
+        assertEquals(updateDto.content, updatePost?.content)
     }
 
     @Test
+    @DisplayName("게시글 삭제 테스트")
     fun deletePost() {
+        postService.deletePost(post1.id!!)
+        assertNull(postService.getPost(post1.id!!))
     }
 
 }
