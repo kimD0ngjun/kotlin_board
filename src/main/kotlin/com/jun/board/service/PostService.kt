@@ -1,8 +1,8 @@
 package com.jun.board.service
 
 import com.jun.board.domain.dto.PostDTO
-import com.jun.board.domain.dto.toDTO
 import com.jun.board.domain.dto.toEntity
+import com.jun.board.domain.entity.toDTO
 import com.jun.board.repository.PostRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
