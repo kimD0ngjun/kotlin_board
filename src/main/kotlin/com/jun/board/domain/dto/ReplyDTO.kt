@@ -16,10 +16,3 @@ fun Reply.toDTO(): ReplyDTO = ReplyDTO(
     user = this.user,
     content = this.content
 )
-
-fun ReplyDTO.toEntity(comment: Comment): Reply = Reply(
-    id = this.id,
-    user = this.user,
-    content = this.content,
-    comment = comment
-)

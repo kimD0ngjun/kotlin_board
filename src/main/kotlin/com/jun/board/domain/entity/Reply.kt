@@ -1,5 +1,6 @@
 package com.jun.board.domain.entity
 
+import com.jun.board.domain.dto.ReplyDTO
 import jakarta.persistence.*
 
 @Entity
@@ -14,4 +15,11 @@ class Reply(
     @ManyToOne
     @JoinColumn(name = "content_id")
     var comment: Comment? = null
+)
+
+fun ReplyDTO.toEntity(comment: Comment): Reply = Reply(
+    id = this.id,
+    user = this.user,
+    content = this.content,
+    comment = comment
 )

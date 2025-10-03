@@ -1,5 +1,6 @@
 package com.jun.board.domain.entity
 
+import com.jun.board.domain.dto.PostDTO
 import jakarta.persistence.*
 
 @Entity // JPA Hibernate는 런타임에 프록시를 생성해야 돼서 상속이 요구되므로 open이 강제된다
@@ -14,4 +15,11 @@ class Post(
 
     @OneToMany(mappedBy = "post", cascade = [CascadeType.ALL], orphanRemoval = true)
     var comments: MutableList<Comment> = mutableListOf()
+)
+
+fun Post.toDTO(): PostDTO = PostDTO(
+    id = this.id,
+    title = this.title,
+    user = this.user,
+    content = this.content
 )

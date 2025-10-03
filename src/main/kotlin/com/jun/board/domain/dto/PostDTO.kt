@@ -9,13 +9,6 @@ data class PostDTO(
     val content: String?
 )
 
-fun Post.toDTO(): PostDTO = PostDTO(
-    id = this.id,
-    title = this.title,
-    user = this.user,
-    content = this.content
-)
-
 fun PostDTO.toEntity(): Post = Post(
     id = this.id,
     title = this.title,

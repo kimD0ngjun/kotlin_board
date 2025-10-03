@@ -10,13 +10,6 @@ data class CommentDTO(
     val content: String
 )
 
-fun Comment.toDTO(): CommentDTO = CommentDTO(
-    id = this.id,
-    postId = this.post?.id ?: 0L,
-    user = this.user,
-    content = this.content
-)
-
 fun CommentDTO.toEntity(post: Post): Comment = Comment(
     id = this.id,
     user = this.user,
