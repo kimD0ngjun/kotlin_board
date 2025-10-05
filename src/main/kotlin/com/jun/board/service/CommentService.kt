@@ -33,12 +33,13 @@ class CommentService(
 
     fun updateComment(commentDTO: CommentDTO): CommentDTO? {
         val id = commentDTO.id ?: return null
-        val entity = commentRepository.findById(id).orElse(null) ?: return null
+        val entity = commentRepository.findById(id).orElseThrow{
+            IllegalArgumentException("존재하지 않는 댓글 아이디: ${commentDTO.id}") }
         /**
          * 자바의 equals()는 코틀린의 ==
          * 자바의 ==는 코틀린의 === (객체 메모리상 참조 비교)
          */
-        if (commentDTO.username != entity.username) return null
+        if (commentDTO.username != entity.username) throw IllegalArgumentException("작성자가 일치하지 않음")
 
         entity.apply {
             content = commentDTO.content

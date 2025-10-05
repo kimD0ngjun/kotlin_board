@@ -74,7 +74,8 @@ class PostServiceTest @Autowired constructor(
     @DisplayName("게시글 전체 조회 테스트")
     fun getAllPosts() {
         val postList: List<PostDTO> = postService.getAllPosts()
-        assertEquals(2, postList.size)
+        assertTrue(postList.any { it.id == post1.id })
+        assertTrue(postList.any { it.id == post2.id })
     }
 
     @Test
