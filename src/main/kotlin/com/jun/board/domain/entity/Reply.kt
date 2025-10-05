@@ -13,7 +13,7 @@ class Reply(
     var content: String,
 
     @ManyToOne
-    @JoinColumn(name = "content_id")
+    @JoinColumn(name = "comment_id")
     var comment: Comment? = null
 )
 
