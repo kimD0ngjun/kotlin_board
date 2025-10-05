@@ -14,8 +14,9 @@ class CommentService(
     private val commentRepository: CommentRepository,
     private val postRepository: PostRepository
 ) {
-    fun createComment(commentDTO: CommentDTO): CommentDTO? {
-        val post = postRepository.findById(commentDTO.postId).orElse(null) ?: return null
+    fun createComment(commentDTO: CommentDTO): CommentDTO {
+        val post = postRepository.findById(commentDTO.postId).orElseThrow{
+            IllegalArgumentException("존재하지 않는 게시글 아이디: ${commentDTO.postId}") }
         val entity = commentDTO.toEntity(post)
         val saved = commentRepository.save(entity)
         return saved.toDTO()
