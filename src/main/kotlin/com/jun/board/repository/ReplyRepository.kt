@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface ReplyRepository: JpaRepository<Reply, Long> {
+    fun findByCommentId(commentId: Long): List<Reply>
 }
