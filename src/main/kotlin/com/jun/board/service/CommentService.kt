@@ -22,6 +22,13 @@ class CommentService(
         return saved.toDTO()
     }
 
+    /**
+     * Retrieves the comment with the given id and returns it as a DTO.
+     *
+     * @param id The identifier of the comment to retrieve.
+     * @return The CommentDTO corresponding to the specified id.
+     * @throws IllegalArgumentException if no comment exists with the given id.
+     */
     @Transactional(readOnly = true)
     fun getComment(id: Long): CommentDTO? {
         val comment = commentRepository.findById(id)

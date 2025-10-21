@@ -18,6 +18,13 @@ class PostService(
         return savedEntity.toDTO()
     }
 
+    /**
+     * Retrieves the post with the given id and returns it as a PostDTO.
+     *
+     * @param id The id of the post to retrieve.
+     * @return The matching PostDTO.
+     * @throws IllegalArgumentException if no post exists with the given id (message: "존재하지 않는 게시글 아이디: $id").
+     */
     @Transactional(readOnly = true)
     fun getPost(id: Long): PostDTO? {
         val post = postRepository.findById(id)
