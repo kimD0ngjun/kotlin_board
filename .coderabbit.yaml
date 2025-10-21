@@ -8,11 +8,11 @@ reviews:
     - Kotlin의 Spring Boot 활용 숙지를 위한 게시판 토이 프로젝트
     - 향후, 전역 예외 처리와 Spring Security도 도입해볼 예정
 
-request_changes_workflow: false;
-high_level_summary: true;
-poem: false;
-review_status: true;
+request_changes_workflow: false
+high_level_summary: true
+poem: false
+review_status: true
 
 auto_review:
-  enabled: ture
+  enabled: true
   drafts: false
