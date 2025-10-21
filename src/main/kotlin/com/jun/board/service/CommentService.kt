@@ -23,9 +23,15 @@ class CommentService(
     }
 
     @Transactional(readOnly = true)
-    fun getComment(id: Long): CommentDTO {
-        val comment = commentRepository.findById(id)
-            .orElseThrow { IllegalArgumentException("존재하지 않는 댓글 아이디: $id") }
+    fun getComment(postId: Long, commentId: Long): CommentDTO {
+        val post = postRepository.findById(postId)
+            .orElseThrow { IllegalArgumentException("존재하지 않는 게시글 아이디: $postId") }
+
+        // 지연로딩 comments 접근 -> SELECT 쿼리 발신
+        val comment = post.comments
+            .firstOrNull { it.id == commentId }
+            ?: throw IllegalArgumentException("존재하지 않는 댓글 아이디: $commentId")
+
         return comment.toDTO()
     }
 

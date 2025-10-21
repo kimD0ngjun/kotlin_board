@@ -20,4 +20,10 @@ class CommentController(
     ): CommentResponse = commentService
         .createComment(commentRequest.toDto(username, postId))
         .toResponse()
+
+    @GetMapping("/{commentId}")
+    fun getComment(
+        @PathVariable postId: Long,
+        @PathVariable commentId: Long
+    ): CommentResponse = commentService.getComment(postId, commentId).toResponse()
 }
