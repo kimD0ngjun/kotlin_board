@@ -95,7 +95,16 @@ class PostServiceTest @Autowired constructor(
     @Test
     @DisplayName("게시글 삭제 테스트")
     fun deletePost() {
-        postService.deletePost(post1.id!!)
+        assertThrows<IllegalArgumentException>{
+            postService.deletePost(999L, "이런 아이디가 존재할 리가")
+        }
+
+        val exception = assertThrows<IllegalArgumentException> {
+            postService.deletePost(post1.id!!, "전혀 다른 아이디")
+        }
+        assertEquals("작성자만 삭제 가능", exception.message)
+
+        postService.deletePost(post1.id!!, post1.username)
         assertThrows<IllegalArgumentException> { postService.getPost(post1.id!!) }
     }
 

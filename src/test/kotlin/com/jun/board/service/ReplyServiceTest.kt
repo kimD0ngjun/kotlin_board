@@ -95,8 +95,7 @@ class ReplyServiceTest @Autowired constructor(
         assertThrows<IllegalArgumentException> { replyService.getReply(reply1.id!!) }
 
         // 연관관계 테스트
-        postService.deletePost(post.id!!)
+        postService.deletePost(post.id!!, post.username)
         assertThrows<IllegalArgumentException> { replyService.getReply(reply2.id!!) }
     }
-
 }
