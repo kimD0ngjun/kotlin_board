@@ -28,9 +28,10 @@ class PostService(
     @Transactional(readOnly = true)
     fun getAllPosts(): List<PostDTO> = postRepository.findAll().map { it.toDTO() }
 
-    fun updatePost(postDTO: PostDTO): PostDTO? {
-        val id = postDTO.id ?: return null
-        val entity = postRepository.findById(id).orElse(null) ?: return null
+    fun updatePost(postDTO: PostDTO): PostDTO {
+        val entity = postDTO.id
+            ?. let { postRepository.findById(it).orElse(null) } // let : null 아닐 때만 해당 블록 실행하고 반환
+            ?: throw IllegalArgumentException("해당 게시글을 찾을 수 없음")
 
         entity.apply {
             title = postDTO.title

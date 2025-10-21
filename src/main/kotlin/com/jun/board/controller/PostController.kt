@@ -5,6 +5,7 @@ import com.jun.board.service.PostService
 import org.springframework.web.bind.annotation.*
 
 @RestController
+@RequestMapping("/post")
 class PostController(
     private val postService: PostService
 ) {
@@ -14,9 +15,9 @@ class PostController(
         username: String // 나중에 @AuthenticationPrincipal userDetails: UserDetailsImpl 로 교체
     ) {}
 
-    @GetMapping
+    @GetMapping("/{id}")
     fun getPost(
-        @PathVariable id: Long
+        @PathVariable("id") id: Long
     ) {}
 
     @GetMapping
@@ -28,9 +29,9 @@ class PostController(
         username: String // 나중에 @AuthenticationPrincipal userDetails: UserDetailsImpl 로 교체
     ) {}
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     fun deletePost(
-        @PathVariable id: Long,
+        @PathVariable("id") id: Long,
         username: String // 나중에 @AuthenticationPrincipal userDetails: UserDetailsImpl 로 교체
     ) {}
 }
