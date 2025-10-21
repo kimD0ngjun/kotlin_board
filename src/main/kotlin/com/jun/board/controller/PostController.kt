@@ -1,5 +1,6 @@
 package com.jun.board.controller
 
+import com.jun.board.controller.request.PostRequest
 import com.jun.board.service.PostService
 import org.springframework.web.bind.annotation.*
 
@@ -8,17 +9,28 @@ class PostController(
     private val postService: PostService
 ) {
     @PostMapping
-    fun createPost() {}
+    fun createPost(
+        @RequestBody postRequest: PostRequest,
+        username: String // 나중에 @AuthenticationPrincipal userDetails: UserDetailsImpl 로 교체
+    ) {}
 
     @GetMapping
-    fun getPost() {}
+    fun getPost(
+        @PathVariable id: Long
+    ) {}
 
     @GetMapping
     fun getAllPosts() {}
 
     @PatchMapping
-    fun updatePost() {}
+    fun updatePost(
+        @RequestBody postRequest: PostRequest,
+        username: String // 나중에 @AuthenticationPrincipal userDetails: UserDetailsImpl 로 교체
+    ) {}
 
     @DeleteMapping
-    fun deletePost() {}
+    fun deletePost(
+        @PathVariable id: Long,
+        username: String // 나중에 @AuthenticationPrincipal userDetails: UserDetailsImpl 로 교체
+    ) {}
 }

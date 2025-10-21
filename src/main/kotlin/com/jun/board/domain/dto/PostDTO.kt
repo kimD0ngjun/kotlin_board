@@ -1,5 +1,6 @@
 package com.jun.board.domain.dto
 
+import com.jun.board.controller.response.PostResponse
 import com.jun.board.domain.entity.Post
 
 data class PostDTO(
@@ -14,4 +15,10 @@ fun PostDTO.toEntity(): Post = Post(
     title = this.title,
     username = this.username,
     content = this.content
+)
+
+fun PostDTO.toResponse(): PostResponse = PostResponse(
+    title = this.title,
+    username = this.username,
+    content = this.content ?: ""
 )
