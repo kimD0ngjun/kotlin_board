@@ -2,6 +2,7 @@ package com.jun.board.service
 
 import com.jun.board.domain.dto.PostDTO
 import com.jun.board.domain.dto.toEntity
+import com.jun.board.domain.entity.Post
 import com.jun.board.domain.entity.toDTO
 import com.jun.board.repository.PostRepository
 import org.springframework.stereotype.Service
@@ -42,7 +43,11 @@ class PostService(
         return entity.toDTO()
     }
 
-    fun deletePost(id: Long): Unit {
-        if (postRepository.existsById(id)) postRepository.deleteById(id)
+    fun deletePost(id: Long, username: String): Unit {
+        postRepository.findById(id)
+            .orElseThrow { IllegalArgumentException("해당 게시글을 찾을 수 없음") }
+            .takeIf { it.username == username } // 조건에 맞으면 객체 그대로 반환 아니면 null 반환 조건부 필터링 함수
+            ?.let { postRepository.delete(it) } // 블록 내 null 안전 처리 + 값 반환/변환 후 반환
+            ?: throw java.lang.IllegalArgumentException("작성자만 삭제 가능")
     }
 }
