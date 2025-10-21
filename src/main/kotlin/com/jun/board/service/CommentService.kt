@@ -24,7 +24,8 @@ class CommentService(
 
     @Transactional(readOnly = true)
     fun getComment(id: Long): CommentDTO? {
-        val comment = commentRepository.findById(id).orElse(null) ?: return null
+        val comment = commentRepository.findById(id)
+            .orElseThrow { IllegalArgumentException("존재하지 않는 댓글 아이디: $id") }
         return comment.toDTO()
     }
 

@@ -20,7 +20,8 @@ class PostService(
 
     @Transactional(readOnly = true)
     fun getPost(id: Long): PostDTO? {
-        val post = postRepository.findById(id).orElse(null) ?: return null
+        val post = postRepository.findById(id)
+            .orElseThrow { IllegalArgumentException("존재하지 않는 게시글 아이디: $id") }
         return post.toDTO()
     }
 
