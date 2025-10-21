@@ -1,5 +1,6 @@
 package com.jun.board.domain.dto
 
+import com.jun.board.controller.response.CommentResponse
 import com.jun.board.domain.entity.Comment
 import com.jun.board.domain.entity.Post
 
@@ -15,4 +16,10 @@ fun CommentDTO.toEntity(post: Post): Comment = Comment(
     username = this.username,
     content = this.content,
     post = post
+)
+
+fun CommentDTO.toResponse(): CommentResponse = CommentResponse(
+    postId = this.postId,
+    username = this.username,
+    content = this.content
 )
