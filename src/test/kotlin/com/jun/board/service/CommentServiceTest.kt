@@ -46,8 +46,8 @@ class CommentServiceTest @Autowired constructor(
     @Test
     @DisplayName("댓글 조회 테스트")
     fun getComment() {
-        val fetched1 = commentService.getComment(comment1.id!!)
-        val fetched2 = commentService.getComment(comment2.id!!)
+        val fetched1 = commentService.getComment(comment1.postId, comment1.id!!)
+        val fetched2 = commentService.getComment(comment1.postId, comment2.id!!)
 
         assertNotNull(fetched1)
         assertEquals(comment1.username, fetched1?.username)
@@ -58,7 +58,7 @@ class CommentServiceTest @Autowired constructor(
         assertEquals(comment2.content, fetched2?.content)
 
         val exception = assertThrows<IllegalArgumentException> {
-            commentService.getComment(999L)
+            commentService.getComment(comment1.postId, 999L)
         }
         assertEquals("존재하지 않는 댓글 아이디: 999", exception.message)
     }
@@ -92,7 +92,7 @@ class CommentServiceTest @Autowired constructor(
     @DisplayName("댓글 삭제 테스트")
     fun deleteComment() {
         commentService.deleteComment(comment1.id!!)
-        assertThrows<IllegalArgumentException> { commentService.getComment(comment1.id!!) }
+        assertThrows<IllegalArgumentException> { commentService.getComment(comment1.postId, comment1.id!!) }
     }
 
 }
