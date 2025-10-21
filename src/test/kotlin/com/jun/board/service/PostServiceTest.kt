@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
@@ -57,7 +58,6 @@ class PostServiceTest @Autowired constructor(
     fun getPost() {
         val fetched1 = postService.getPost(post1.id!!) // !!: 절대 null이 아님을 보장하는 문법
         val fetched2 = postService.getPost(post2.id!!)
-        val fetched3 = postService.getPost(999L) // 존재하지 않는 ID
 
         assertNotNull(fetched1)
         assertEquals(post1.title, fetched1?.title)
@@ -67,7 +67,10 @@ class PostServiceTest @Autowired constructor(
         assertEquals(post2.title, fetched2?.title)
         assertEquals(post2.content, fetched2?.content)
 
-        assertNull(fetched3)
+        val exception = assertThrows<IllegalArgumentException> {
+            postService.getPost(999L) // 존재하지 않는 ID
+        }
+        assertEquals("존재하지 않는 게시글 아이디: 999", exception.message)
     }
 
     @Test
@@ -93,7 +96,7 @@ class PostServiceTest @Autowired constructor(
     @DisplayName("게시글 삭제 테스트")
     fun deletePost() {
         postService.deletePost(post1.id!!)
-        assertNull(postService.getPost(post1.id!!))
+        assertThrows<IllegalArgumentException> { postService.getPost(post1.id!!) }
     }
 
 }
