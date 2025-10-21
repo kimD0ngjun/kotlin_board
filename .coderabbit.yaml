@@ -1,0 +1,18 @@
+language: "ko-KR"
+
+reviews:
+  profile: "chill"
+  instructions: |
+    우리 프로젝트는 다음과 같은 상황입니다:
+    - Java를 숙지한 상태에서 Kotlin 학습 시작한 상황
+    - Kotlin의 Spring Boot 활용 숙지를 위한 게시판 토이 프로젝트
+    - 향후, 전역 예외 처리와 Spring Security도 도입해볼 예정
+
+request_changes_workflow: false;
+high_level_summary: true;
+poem: false;
+review_status: true;
+
+auto_review:
+  enabled: ture
+  drafts: false
