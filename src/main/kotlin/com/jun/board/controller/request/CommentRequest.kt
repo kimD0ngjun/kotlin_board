@@ -7,7 +7,13 @@ data class CommentRequest(
 )
 
 fun CommentRequest.toDto(username: String, postId: Long): CommentDTO = CommentDTO(
-    id = null,
+    username = username,
+    content = this.content,
+    postId = postId
+)
+
+fun CommentRequest.toDto(username: String, postId: Long, id: Long): CommentDTO = CommentDTO(
+    id = id,
     username = username,
     content = this.content,
     postId = postId

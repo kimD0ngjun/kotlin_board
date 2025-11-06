@@ -35,7 +35,6 @@ class PostService(
 
         entity.apply {
             title = postDTO.title
-            username = postDTO.username
             content = postDTO.content
         }
 

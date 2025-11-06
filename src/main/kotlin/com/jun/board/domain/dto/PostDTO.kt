@@ -11,7 +11,6 @@ data class PostDTO(
 )
 
 fun PostDTO.toEntity(): Post = Post(
-    id = this.id,
     title = this.title,
     username = this.username,
     content = this.content

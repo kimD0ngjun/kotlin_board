@@ -12,7 +12,6 @@ data class CommentDTO(
 )
 
 fun CommentDTO.toEntity(post: Post): Comment = Comment(
-    id = this.id,
     username = this.username,
     content = this.content,
     post = post

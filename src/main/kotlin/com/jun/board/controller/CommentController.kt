@@ -31,12 +31,13 @@ class CommentController(
     fun getAllComments(@PathVariable postId: Long): List<CommentResponse> =
         commentService.getCommentsOfPost(postId).map { it.toResponse() }
 
-    @PatchMapping // 얘도 그냥 pathVariable 주는 게 맞지 않나?
+    @PatchMapping("/{id}") // 얘도 그냥 pathVariable 주는 게 맞지 않나?
     fun updateComment(
+        @PathVariable("id") id: Long,
         @PathVariable("postId") postId: Long,
         @RequestBody commentRequest: CommentRequest,
         username: String
-    ): CommentResponse = commentService.updateComment(commentRequest.toDto(username, postId)).toResponse()
+    ): CommentResponse = commentService.updateComment(commentRequest.toDto(username, postId, id)).toResponse()
 
     @DeleteMapping("/{commentId}")
     fun deleteComment(

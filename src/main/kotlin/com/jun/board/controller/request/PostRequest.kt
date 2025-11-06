@@ -8,7 +8,13 @@ data class PostRequest(
 )
 
 fun PostRequest.toDto(username: String): PostDTO = PostDTO(
-    id = null,
+    title = this.title,
+    username = username,
+    content = this.content
+)
+
+fun PostRequest.toDto(username: String, postId: Long): PostDTO = PostDTO(
+    id = postId,
     title = this.title,
     username = username,
     content = this.content

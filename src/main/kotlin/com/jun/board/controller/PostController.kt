@@ -26,11 +26,12 @@ class PostController(
     @GetMapping
     fun getAllPosts(): List<PostResponse> = postService.getAllPosts().map { it.toResponse() }
 
-    @PatchMapping
+    @PatchMapping("/{id}")
     fun updatePost(
+        @PathVariable("id") id: Long,
         @RequestBody postRequest: PostRequest,
         username: String // 나중에 @AuthenticationPrincipal userDetails: UserDetailsImpl 로 교체
-    ): PostResponse = postService.updatePost(postRequest.toDto(username)).toResponse()
+    ): PostResponse = postService.updatePost(postRequest.toDto(username, id)).toResponse()
 
     @DeleteMapping("/{id}")
     fun deletePost(
