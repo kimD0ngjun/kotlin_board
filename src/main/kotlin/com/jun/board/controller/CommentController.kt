@@ -8,13 +8,13 @@ import com.jun.board.service.CommentService
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/posts/{postId}/comments")
+@RequestMapping("/post/{postId}/comment")
 class CommentController(
     private val commentService: CommentService
 ) {
     @PostMapping
     fun createComment(
-        @PathVariable postId: Long,
+        @PathVariable("postId") postId: Long,
         @RequestBody commentRequest: CommentRequest,
         username: String
     ): CommentResponse = commentService
@@ -23,7 +23,25 @@ class CommentController(
 
     @GetMapping("/{commentId}")
     fun getComment(
-        @PathVariable postId: Long,
-        @PathVariable commentId: Long
+        @PathVariable("postId") postId: Long,
+        @PathVariable("commentId") commentId: Long
     ): CommentResponse = commentService.getComment(postId, commentId).toResponse()
+
+    @GetMapping
+    fun getAllComments(@PathVariable postId: Long): List<CommentResponse> =
+        commentService.getCommentsOfPost(postId).map { it.toResponse() }
+
+    @PatchMapping // 얘도 그냥 pathVariable 주는 게 맞지 않나?
+    fun updateComment(
+        @PathVariable("postId") postId: Long,
+        @RequestBody commentRequest: CommentRequest,
+        username: String
+    ): CommentResponse? = commentService.updateComment(commentRequest.toDto(username, postId))?.toResponse() ?: null
+
+    @DeleteMapping("/{commentId}")
+    fun deleteComment(
+        @PathVariable("postId") postId: Long,
+        @PathVariable("commentId") commentId: Long,
+        username: String
+    ): Unit = commentService.deleteComment(commentId)
 }
