@@ -14,10 +14,7 @@ class Comment(
 
     @ManyToOne
     @JoinColumn(name = "post_id")
-    var post: Post? = null,
-
-    @OneToMany(mappedBy = "comment", cascade = [CascadeType.ALL], orphanRemoval = true)
-    var replies: MutableList<Reply> = mutableListOf()
+    var post: Post? = null
 )
 
 fun Comment.toDTO(): CommentDTO = CommentDTO(

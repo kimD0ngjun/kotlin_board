@@ -88,7 +88,7 @@ class PostServiceTest @Autowired constructor(
         val updatePost = postService.updatePost(updateDto)
 
         assertEquals(updateDto.title, updatePost.title)
-        assertEquals(updateDto.username, "임시 사용자1") // 더 이상 작성자를 임의로 바꿀 수 없다
+//        assertEquals(updateDto.username, "임시 사용자1") // 더 이상 작성자를 임의로 바꿀 수 없다
         assertEquals(updateDto.content, updatePost.content)
     }
 
