@@ -30,6 +30,18 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    // Kotest core
+    testImplementation("io.kotest:kotest-runner-junit5:6.0.0")
+    // Kotest assertions (shouldBe, shouldThrow 등)
+    testImplementation("io.kotest:kotest-assertions-core:6.0.0")
+    // Kotest property testing (선택)
+    testImplementation("io.kotest:kotest-property:6.0.0")
+    // Kotest Spring 연동
+    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.3.0")
+
+    // MockK
+    testImplementation("io.mockk:mockk:1.14.5")
 }
 
 kotlin {
