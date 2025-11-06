@@ -36,12 +36,12 @@ class CommentController(
         @PathVariable("postId") postId: Long,
         @RequestBody commentRequest: CommentRequest,
         username: String
-    ): CommentResponse? = commentService.updateComment(commentRequest.toDto(username, postId))?.toResponse() ?: null
+    ): CommentResponse = commentService.updateComment(commentRequest.toDto(username, postId)).toResponse()
 
     @DeleteMapping("/{commentId}")
     fun deleteComment(
         @PathVariable("postId") postId: Long,
         @PathVariable("commentId") commentId: Long,
         username: String
-    ): Unit = commentService.deleteComment(commentId)
+    ): Unit = commentService.deleteComment(commentId, postId, username)
 }
