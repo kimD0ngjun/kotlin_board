@@ -50,12 +50,12 @@ class CommentServiceTest @Autowired constructor(
         val fetched2 = commentService.getComment(comment1.postId, comment2.id!!)
 
         assertNotNull(fetched1)
-        assertEquals(comment1.username, fetched1?.username)
-        assertEquals(comment1.content, fetched1?.content)
+        assertEquals(comment1.username, fetched1.username)
+        assertEquals(comment1.content, fetched1.content)
 
         assertNotNull(fetched2)
-        assertEquals(comment2.username, fetched2?.username)
-        assertEquals(comment2.content, fetched2?.content)
+        assertEquals(comment2.username, fetched2.username)
+        assertEquals(comment2.content, fetched2.content)
 
         val exception = assertThrows<IllegalArgumentException> {
             commentService.getComment(comment1.postId, 999L)
@@ -84,14 +84,14 @@ class CommentServiceTest @Autowired constructor(
         updateDto = CommentDTO(comment1.id!!, comment1.postId, "댓글 작성자1", "수정댓11")
         val updateComment = commentService.updateComment(updateDto)
 
-        assertEquals(updateDto.username, updateComment?.username)
-        assertEquals(updateDto.content, updateComment?.content)
+        assertEquals(updateDto.username, updateComment.username)
+        assertEquals(updateDto.content, updateComment.content)
     }
 
     @Test
     @DisplayName("댓글 삭제 테스트")
     fun deleteComment() {
-        commentService.deleteComment(comment1.id!!)
+        commentService.deleteComment(comment1.id!!, comment1.postId, comment1.username)
         assertThrows<IllegalArgumentException> { commentService.getComment(comment1.postId, comment1.id!!) }
     }
 
