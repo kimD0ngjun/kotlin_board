@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTest
 @ActiveProfiles("test")
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(printOnlyOnFailure = false)
 class PostControllerTest @Autowired constructor(
     private val mockMvc: MockMvc,
     private val objectMapper: ObjectMapper
@@ -52,7 +52,6 @@ class PostControllerTest @Autowired constructor(
                 .content(objectMapper.writeValueAsString(request))
                 .param("username", "새로운 작성자") // 시큐리티 도입 시, 변경 필요
         )
-            .andDo(MockMvcResultHandlers.print())
             .andExpect { status().isOk }
             .andReturn()
     }
@@ -64,7 +63,7 @@ class PostControllerTest @Autowired constructor(
             get("/post/1")
                 .contentType(MediaType.APPLICATION_JSON)
         )
-            .andDo(MockMvcResultHandlers.print()) // 왜 람다가 아니라 이렇게 바꾸니까 되지...?
+//            .andDo(MockMvcResultHandlers.print()) // 왜 람다가 아니라 이렇게 바꾸니까 되지...?
             .andExpect { status().isOk }
             .andReturn()
     }
@@ -76,7 +75,6 @@ class PostControllerTest @Autowired constructor(
             get("/post")
                 .contentType(MediaType.APPLICATION_JSON)
         )
-            .andDo(MockMvcResultHandlers.print())
             .andExpect { status().isOk }
             .andReturn()
     }
@@ -92,7 +90,6 @@ class PostControllerTest @Autowired constructor(
                 .content(objectMapper.writeValueAsString(request))
                 .param("username", username)
         )
-            .andDo(MockMvcResultHandlers.print())
             .andExpect { status().isOk }
             .andReturn()
     }
@@ -105,7 +102,6 @@ class PostControllerTest @Autowired constructor(
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("username", username)
         )
-            .andDo(MockMvcResultHandlers.print())
             .andExpect { status().isOk }
             .andReturn()
     }
