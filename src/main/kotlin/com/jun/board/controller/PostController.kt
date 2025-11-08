@@ -30,12 +30,12 @@ class PostController(
     fun updatePost(
         @PathVariable("id") id: Long,
         @RequestBody postRequest: PostRequest,
-        username: String // 나중에 @AuthenticationPrincipal userDetails: UserDetailsImpl 로 교체
+        @RequestParam username: String // 나중에 @AuthenticationPrincipal userDetails: UserDetailsImpl 로 교체
     ): PostResponse = postService.updatePost(postRequest.toDto(username, id)).toResponse()
 
     @DeleteMapping("/{id}")
     fun deletePost(
         @PathVariable("id") id: Long,
-        username: String // 나중에 @AuthenticationPrincipal userDetails: UserDetailsImpl 로 교체
+        @RequestParam username: String // 나중에 @AuthenticationPrincipal userDetails: UserDetailsImpl 로 교체
     ): Unit = postService.deletePost(id, username)
 }

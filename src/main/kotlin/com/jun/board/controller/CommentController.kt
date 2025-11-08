@@ -16,7 +16,7 @@ class CommentController(
     fun createComment(
         @PathVariable("postId") postId: Long,
         @RequestBody commentRequest: CommentRequest,
-        username: String
+        @RequestParam username: String
     ): CommentResponse = commentService
         .createComment(commentRequest.toDto(username, postId))
         .toResponse()
@@ -36,13 +36,13 @@ class CommentController(
         @PathVariable("id") id: Long,
         @PathVariable("postId") postId: Long,
         @RequestBody commentRequest: CommentRequest,
-        username: String
+        @RequestParam username: String
     ): CommentResponse = commentService.updateComment(commentRequest.toDto(username, postId, id)).toResponse()
 
     @DeleteMapping("/{commentId}")
     fun deleteComment(
         @PathVariable("postId") postId: Long,
         @PathVariable("commentId") commentId: Long,
-        username: String
+        @RequestParam username: String
     ): Unit = commentService.deleteComment(commentId, postId, username)
 }
