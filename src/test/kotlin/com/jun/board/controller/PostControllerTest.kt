@@ -2,9 +2,11 @@ package com.jun.board.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jun.board.controller.request.PostRequest
+import com.jun.board.controller.response.PostResponse
 import com.jun.board.service.PostService
 import io.mockk.every
 import io.mockk.mockk
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -44,6 +46,18 @@ class PostControllerTest @Autowired constructor(
             .andDo(MockMvcResultHandlers.print())
             .andExpect(status().isOk)
             .andReturn()
+
+        // 응답 JSON 문자열 가져오기
+        val responseJson = result.response.contentAsString
+
+        // ObjectMapper로 PostResponse 타입으로 변환
+        val response = objectMapper.readValue(responseJson, PostResponse::class.java)
+
+        // Assertion
+        Assertions.assertNotNull(response) // null 아님 검증
+        Assertions.assertTrue(response is PostResponse) // 타입 검증
+
+
     }
 }
 
