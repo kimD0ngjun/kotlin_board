@@ -2,6 +2,8 @@ package com.jun.board.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jun.board.controller.request.PostRequest
+import com.jun.board.domain.dto.PostDTO
+import com.jun.board.service.PostService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -23,22 +25,19 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @AutoConfigureMockMvc(printOnlyOnFailure = false)
 class PostControllerTest @Autowired constructor(
     private val mockMvc: MockMvc,
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
+    private val postService: PostService
 ) {
     val title: String = "제목"
     val username: String = "작성자"
     val content: String = "내용"
+    var postId: Long? = null
 
     @BeforeEach
     fun setUp() {
-        val request = PostRequest(title, content)
-
-        mockMvc.perform(
-            post("/post")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request))
-                .param("username", username) // 시큐리티 도입 시, 변경 필요
-        )
+        val dto = PostDTO(null, title, username, content)
+        val post = postService.createPost(dto)
+        postId = post.id
     }
 
     @Test
@@ -60,7 +59,7 @@ class PostControllerTest @Autowired constructor(
     @DisplayName("GET /post/{id} 테스트")
     fun getPost() {
         mockMvc.perform(
-            get("/post/1")
+            get("/post/$postId")
                 .contentType(MediaType.APPLICATION_JSON)
         )
 //            .andDo(MockMvcResultHandlers.print()) // 왜 람다가 아니라 이렇게 바꾸니까 되지...?
@@ -85,7 +84,7 @@ class PostControllerTest @Autowired constructor(
         val request = PostRequest("바꾸려는 제목", "바꾸려는 내용")
 
         mockMvc.perform(
-            patch("/post/1")
+            patch("/post/$postId")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))
                 .param("username", username)
@@ -98,7 +97,7 @@ class PostControllerTest @Autowired constructor(
     @DisplayName("DELETE /post/{id} 테스트")
     fun deletePost() {
         mockMvc.perform(
-            delete("/post/1")
+            delete("/post/$postId")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("username", username)
         )
