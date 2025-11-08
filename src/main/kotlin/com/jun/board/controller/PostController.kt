@@ -15,7 +15,7 @@ class PostController(
     @PostMapping
     fun createPost(
         @RequestBody postRequest: PostRequest,
-        username: String // 나중에 @AuthenticationPrincipal userDetails: UserDetailsImpl 로 교체
+        @RequestParam username: String // 나중에 @AuthenticationPrincipal userDetails: UserDetailsImpl 로 교체
     ): PostResponse = postService.createPost(postRequest.toDto(username)).toResponse()
 
     @GetMapping("/{id}")
