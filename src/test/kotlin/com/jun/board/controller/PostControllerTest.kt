@@ -2,12 +2,8 @@ package com.jun.board.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jun.board.controller.request.PostRequest
-import com.jun.board.controller.response.PostResponse
-import com.jun.board.service.PostService
-import io.mockk.every
-import io.mockk.mockk
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -15,6 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -26,38 +25,89 @@ class PostControllerTest @Autowired constructor(
     private val mockMvc: MockMvc,
     private val objectMapper: ObjectMapper
 ) {
-    val postService: PostService = mockk<PostService>()
+    val title: String = "제목"
+    val username: String = "작성자"
+    val content: String = "내용"
 
     @BeforeEach
     fun setUp() {
-        every { postService.createPost(any()) } returns mockk(relaxed = true)
-    }
+        val request = PostRequest(title, content)
 
-    @Test
-    fun test() {
-        val request = PostRequest("제목", "내용")
-
-        val result = mockMvc.perform(
+        mockMvc.perform(
             post("/post")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))
-                .param("username", "test")
+                .param("username", username) // 시큐리티 도입 시, 변경 필요
+        )
+    }
+
+    @Test
+    @DisplayName("POST /post 테스트")
+    fun createPost() {
+        val request = PostRequest("새로운 제목", "새로운 내용")
+
+        mockMvc.perform(
+            post("/post")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+                .param("username", "새로운 작성자") // 시큐리티 도입 시, 변경 필요
         )
             .andDo(MockMvcResultHandlers.print())
-            .andExpect(status().isOk)
+            .andExpect { status().isOk }
             .andReturn()
+    }
 
-        // 응답 JSON 문자열 가져오기
-        val responseJson = result.response.contentAsString
+    @Test
+    @DisplayName("GET /post/{id} 테스트")
+    fun getPost() {
+        mockMvc.perform(
+            get("/post/1")
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andDo(MockMvcResultHandlers.print()) // 왜 람다가 아니라 이렇게 바꾸니까 되지...?
+            .andExpect { status().isOk }
+            .andReturn()
+    }
 
-        // ObjectMapper로 PostResponse 타입으로 변환
-        val response = objectMapper.readValue(responseJson, PostResponse::class.java)
+    @Test
+    @DisplayName("GET /post 테스트")
+    fun getAllPosts() {
+        mockMvc.perform(
+            get("/post")
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andDo(MockMvcResultHandlers.print())
+            .andExpect { status().isOk }
+            .andReturn()
+    }
 
-        // Assertion
-        Assertions.assertNotNull(response) // null 아님 검증
-        Assertions.assertTrue(response is PostResponse) // 타입 검증
+    @Test
+    @DisplayName("PATCH /post/{id} 테스트")
+    fun updatePost() {
+        val request = PostRequest("바꾸려는 제목", "바꾸려는 내용")
 
+        mockMvc.perform(
+            patch("/post/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+                .param("username", username)
+        )
+            .andDo(MockMvcResultHandlers.print())
+            .andExpect { status().isOk }
+            .andReturn()
+    }
 
+    @Test
+    @DisplayName("DELETE /post/{id} 테스트")
+    fun deletePost() {
+        mockMvc.perform(
+            delete("/post/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("username", username)
+        )
+            .andDo(MockMvcResultHandlers.print())
+            .andExpect { status().isOk }
+            .andReturn()
     }
 }
 
