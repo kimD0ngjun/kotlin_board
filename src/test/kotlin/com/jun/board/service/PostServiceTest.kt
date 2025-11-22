@@ -60,12 +60,12 @@ class PostServiceTest @Autowired constructor(
         val fetched2 = postService.getPost(post2.id!!)
 
         assertNotNull(fetched1)
-        assertEquals(post1.title, fetched1?.title)
-        assertEquals(post1.content, fetched1?.content)
+        assertEquals(post1.title, fetched1.title)
+        assertEquals(post1.content, fetched1.content)
 
         assertNotNull(fetched2)
-        assertEquals(post2.title, fetched2?.title)
-        assertEquals(post2.content, fetched2?.content)
+        assertEquals(post2.title, fetched2.title)
+        assertEquals(post2.content, fetched2.content)
 
         val exception = assertThrows<IllegalArgumentException> {
             postService.getPost(999L) // 존재하지 않는 ID
@@ -87,15 +87,24 @@ class PostServiceTest @Autowired constructor(
         val updateDto = PostDTO(post1.id!!, "수정된 제목", "수정된 사용자", "수정된 콘텐츠")
         val updatePost = postService.updatePost(updateDto)
 
-        assertEquals(updateDto.title, updatePost?.title)
-        assertEquals(updateDto.username, updatePost?.username)
-        assertEquals(updateDto.content, updatePost?.content)
+        assertEquals(updateDto.title, updatePost.title)
+//        assertEquals(updateDto.username, "임시 사용자1") // 더 이상 작성자를 임의로 바꿀 수 없다
+        assertEquals(updateDto.content, updatePost.content)
     }
 
     @Test
     @DisplayName("게시글 삭제 테스트")
     fun deletePost() {
-        postService.deletePost(post1.id!!)
+        assertThrows<IllegalArgumentException>{
+            postService.deletePost(999L, "이런 아이디가 존재할 리가")
+        }
+
+        val exception = assertThrows<IllegalArgumentException> {
+            postService.deletePost(post1.id!!, "전혀 다른 아이디")
+        }
+        assertEquals("작성자만 삭제 가능", exception.message)
+
+        postService.deletePost(post1.id!!, post1.username)
         assertThrows<IllegalArgumentException> { postService.getPost(post1.id!!) }
     }
 

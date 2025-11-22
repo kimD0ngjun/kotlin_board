@@ -1,9 +1,9 @@
 plugins {
-	kotlin("jvm") version "1.9.25"
-	kotlin("plugin.spring") version "1.9.25"
-	id("org.springframework.boot") version "3.5.6"
-	id("io.spring.dependency-management") version "1.1.7"
-	kotlin("plugin.jpa") version "1.9.25"
+    kotlin("jvm") version "2.2.0"
+    kotlin("plugin.spring") version "2.2.0"
+    kotlin("plugin.jpa") version "2.2.0"
+    id("org.springframework.boot") version "3.5.6"
+    id("io.spring.dependency-management") version "1.1.7"
 }
 
 group = "com.jun"
@@ -30,6 +30,18 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    // Kotest core
+    testImplementation("io.kotest:kotest-runner-junit5:6.0.0")
+    // Kotest assertions (shouldBe, shouldThrow 등)
+    testImplementation("io.kotest:kotest-assertions-core:6.0.0")
+    // Kotest property testing (선택)
+    testImplementation("io.kotest:kotest-property:6.0.0")
+    // Kotest Spring 연동
+    testImplementation("io.kotest:kotest-extensions-spring:6.0.0")
+
+    // MockK
+    testImplementation("io.mockk:mockk:1.14.5")
 }
 
 kotlin {
