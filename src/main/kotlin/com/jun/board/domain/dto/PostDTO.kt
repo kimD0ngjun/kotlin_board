@@ -17,6 +17,7 @@ fun PostDTO.toEntity(): Post = Post(
 )
 
 fun PostDTO.toResponse(): PostResponse = PostResponse(
+    id = this.id ?: 0L,
     title = this.title,
     username = this.username,
     content = this.content ?: ""

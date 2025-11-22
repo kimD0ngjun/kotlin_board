@@ -18,6 +18,7 @@ fun CommentDTO.toEntity(post: Post): Comment = Comment(
 )
 
 fun CommentDTO.toResponse(): CommentResponse = CommentResponse(
+    id = this.id ?: 0L,
     postId = this.postId,
     username = this.username,
     content = this.content
