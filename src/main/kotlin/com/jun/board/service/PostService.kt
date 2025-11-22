@@ -33,6 +33,8 @@ class PostService(
             ?. let { postRepository.findById(it).orElse(null) } // let : null 아닐 때만 해당 블록 실행하고 반환
             ?: throw IllegalArgumentException("해당 게시글을 찾을 수 없음")
 
+        if (postDTO.username != entity.username) throw IllegalArgumentException("작성자가 일치하지 않음")
+
         entity.apply {
             title = postDTO.title
             content = postDTO.content
