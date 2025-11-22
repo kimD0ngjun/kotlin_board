@@ -38,7 +38,7 @@ dependencies {
     // Kotest property testing (선택)
     testImplementation("io.kotest:kotest-property:6.0.0")
     // Kotest Spring 연동
-    testImplementation("io.kotest:kotest-extensions-spring:6.0.0.M4")
+    testImplementation("io.kotest:kotest-extensions-spring:6.0.0")
 
     // MockK
     testImplementation("io.mockk:mockk:1.14.5")
